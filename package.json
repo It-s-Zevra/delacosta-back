@@ -10,7 +10,7 @@
     "dev": "tsx watch src/server.ts",
     "start": "tsx src/server.ts",
     "typecheck": "tsc --noEmit",
-    "build": "tsc --noEmit"
+    "build": "echo \"No build step: la app corre con tsx (sin compilación).\""
   },
   "keywords": [
     "delacosta",

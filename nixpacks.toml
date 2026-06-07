@@ -1,0 +1,9 @@
+# Railway / Nixpacks config. The app runs with tsx (no compile step), so the
+# build phase is a no-op and start just runs `npm start`.
+providers = ["node"]
+
+[phases.build]
+cmds = ["echo 'sin build: la app corre con tsx'"]
+
+[start]
+cmd = "npm start"
