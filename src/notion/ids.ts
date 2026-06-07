@@ -4,15 +4,13 @@
  * Notion exposes a `database_id` and, inside each base, one or more
  * `data_source_id` (collections). Reads/writes go through the `data_source_id`.
  *
- * If the bases are ever recreated in Notion, update these IDs here.
+ * The `data_source_id`s come from the environment (with the current workspace IDs
+ * as defaults) — see `DS_*` in src/config/env.ts. Override them there if the
+ * bases are ever recreated in Notion.
  */
-export const DATA_SOURCES = {
-  categorias: "5d01b258-839d-4514-bd8b-36c490f87d0a",
-  productos: "c7dfe85f-8ff9-426e-be31-619d0206733c",
-  clientes: "473aefac-4c0f-4901-b291-6fa13d2a6397",
-  pedidos: "43f9a040-313f-4ef6-9a98-841e979a9cf5",
-  itemsPedido: "2ec5fe50-c5a1-4f6b-a779-4982e742cb1e",
-} as const;
+import { dataSources } from "../config/env.js";
+
+export const DATA_SOURCES = dataSources;
 
 export const DATABASES = {
   categorias: "16509e08-9936-4fd2-9e8c-9ac3a7edc450",
