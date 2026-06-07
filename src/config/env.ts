@@ -1,9 +1,16 @@
 import "dotenv/config";
 
+/** Collected at load time so /health can report what's misconfigured. */
+export const missingEnv: string[] = [];
+
 function required(name: string): string {
   const value = process.env[name];
   if (!value || value.trim() === "") {
-    throw new Error(`Missing required environment variable: ${name}`);
+    // Don't crash the process (Railway would crash-loop and 502 even /health).
+    // Boot anyway, warn loudly, and let Notion routes surface a clear error.
+    missingEnv.push(name);
+    console.warn(`⚠️  Falta la variable de entorno ${name}`);
+    return "";
   }
   return value.trim();
 }

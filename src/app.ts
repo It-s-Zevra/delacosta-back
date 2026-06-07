@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import { env, isProd } from "./config/env.js";
+import { env, isProd, missingEnv } from "./config/env.js";
 import { categoriesRouter } from "./routes/categories.routes.js";
 import { productsRouter } from "./routes/products.routes.js";
 import { customersRouter } from "./routes/customers.routes.js";
@@ -29,7 +29,12 @@ export function createApp() {
   });
 
   app.get("/health", (_req, res) => {
-    res.json({ status: "ok", uptime: process.uptime() });
+    res.json({
+      status: missingEnv.length ? "degraded" : "ok",
+      uptime: process.uptime(),
+      notionConfigured: missingEnv.length === 0,
+      ...(missingEnv.length ? { missingEnv } : {}),
+    });
   });
 
   app.use("/api/categories", categoriesRouter);
