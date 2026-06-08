@@ -5,6 +5,8 @@ import * as customers from "./customers.service.js";
 import * as orders from "./orders.service.js";
 import type { CustomerInput } from "../mappers/customer.js";
 import type { OrderWithItems } from "./orders.service.js";
+import { buildMailPayload } from "../mailer/utils/buildPayload.js";
+import { processOrderConfirmation } from "../mailer/services/order.service.js";
 
 export interface CheckoutLine {
   productId: string;
@@ -101,5 +103,15 @@ export async function checkout(input: CheckoutInput): Promise<OrderWithItems> {
   }
 
   // Read the order back so rollups (Subtotal, Total) are reflected.
-  return orders.getOrderWithItems(order.id);
+  const orderWithItems = await orders.getOrderWithItems(order.id);
+
+  // Fire-and-forget: no bloquea el 201 al frontend
+  if (customer.email) {
+    const payload = buildMailPayload({ lines, customer, order, input });
+    processOrderConfirmation("delacosta", payload)
+      .then((r) => console.log(`📧 Emails enviados (${order.numero}) — partial: ${r.partial}`))
+      .catch((e: Error) => console.error(`❌ Falló envío de emails (${order.numero}): ${e.message}`));
+  }
+
+  return orderWithItems;
 }

@@ -1,6 +1,7 @@
 import type { AddressInfo } from "node:net";
 import { createApp } from "./app.js";
 import { env, missingEnv } from "./config/env.js";
+import { verifyTransport } from "./mailer/services/mail.service.js";
 
 const app = createApp();
 
@@ -15,6 +16,8 @@ const app = createApp();
 const ports = Array.from(new Set([env.port, 3000].filter(Boolean)));
 
 let announced = false;
+let smtpChecked = false;
+
 function announce(actualPort: number) {
   if (announced) {
     console.log(`   ↪ también escuchando en :${actualPort}`);
@@ -28,6 +31,13 @@ function announce(actualPort: number) {
   }
   if (!env.apiKey) {
     console.log("   ⚠️  API_KEY vacía: los endpoints de escritura están abiertos.");
+  }
+
+  if (!smtpChecked) {
+    smtpChecked = true;
+    verifyTransport()
+      .then(() => console.log("   ✅ SMTP connection verified"))
+      .catch((e: Error) => console.warn(`   ⚠️  SMTP no disponible: ${e.message}`));
   }
 }
 
