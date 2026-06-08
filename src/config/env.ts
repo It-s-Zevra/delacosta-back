@@ -34,11 +34,11 @@ export const env = {
  * entorno; si no, se usan los IDs actuales del workspace «Delacosta · CRM».
  */
 export const dataSources = {
-  categorias: optional("DS_CATEGORIAS", "5d01b258-839d-4514-bd8b-36c490f87d0a"),
-  productos: optional("DS_PRODUCTOS", "c7dfe85f-8ff9-426e-be31-619d0206733c"),
-  clientes: optional("DS_CLIENTES", "473aefac-4c0f-4901-b291-6fa13d2a6397"),
-  pedidos: optional("DS_PEDIDOS", "43f9a040-313f-4ef6-9a98-841e979a9cf5"),
-  itemsPedido: optional("DS_ITEMS", "2ec5fe50-c5a1-4f6b-a779-4982e742cb1e"),
+  categorias: optional("DS_CATEGORIAS", "2e87b8b4-788c-82fa-a9ef-876039cb8ea6"),
+  productos: optional("DS_PRODUCTOS", "3f17b8b4-788c-836d-95d7-074ad58c96e7"),
+  clientes: optional("DS_CLIENTES", "8e67b8b4-788c-82d7-b4f5-87c856d6c35c"),
+  pedidos: optional("DS_PEDIDOS", "2be7b8b4-788c-833a-a56f-07128fd10783"),
+  itemsPedido: optional("DS_ITEMS", "86b7b8b4-788c-83a9-820d-077c38d780a8"),
 } as const;
 
 export const isProd = env.nodeEnv === "production";
