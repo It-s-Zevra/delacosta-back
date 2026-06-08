@@ -11,6 +11,7 @@ export const PRODUCT_PROPS = {
   estado: "Estado",
   descripcion: "Descripción",
   materiales: "Materiales",
+  imagenes: "Imágenes",
   urlImagen: "URL imagen",
   slug: "Slug",
   destacado: "Destacado",
@@ -66,7 +67,9 @@ export function toProduct(page: NotionPage): Product {
     estado: p.readSelect(props, PRODUCT_PROPS.estado),
     descripcion: p.readRichText(props, PRODUCT_PROPS.descripcion),
     materiales: p.readMultiSelect(props, PRODUCT_PROPS.materiales),
-    urlImagen: p.readUrl(props, PRODUCT_PROPS.urlImagen),
+    urlImagen:
+      p.readUrl(props, PRODUCT_PROPS.urlImagen) ??
+      p.readFirstFileUrl(props, PRODUCT_PROPS.imagenes),
     slug: p.readRichText(props, PRODUCT_PROPS.slug),
     destacado: p.readCheckbox(props, PRODUCT_PROPS.destacado),
     pesoG: p.readNumber(props, PRODUCT_PROPS.peso),

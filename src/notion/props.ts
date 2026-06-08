@@ -63,6 +63,20 @@ export function readRelationIds(props: Props, name: string): string[] {
   return arr.map((r: any) => r?.id).filter(Boolean);
 }
 
+/**
+ * First URL from a `files` property. Handles both external files (a URL pasted
+ * into Notion) and uploaded files (Notion-hosted; note: those URLs are signed
+ * and expire after ~1h, so prefer a stable URL in `URL imagen`).
+ */
+export function readFirstFileUrl(props: Props, name: string): string | null {
+  const files = props?.[name]?.files ?? [];
+  for (const f of files) {
+    const url = f?.external?.url ?? f?.file?.url;
+    if (url) return url;
+  }
+  return null;
+}
+
 /** unique_id -> "DLC-12" */
 export function readUniqueId(props: Props, name: string): string | null {
   const u = props?.[name]?.unique_id;
